@@ -18,7 +18,7 @@ def read_safelist():
 
 
 def repositories(org, token):
-    url = f'https://api.github.com/orgs/{org}/repos'
+    url = 'https://api.github.com/user/subscriptions'
     params = {'page': 1, 'per_page': 100}
     headers = {'Authorization': f'token {token}'}
     repos = []
@@ -28,19 +28,25 @@ def repositories(org, token):
         repos.extend(page)
         if len(page) < 100:
             break
+        params['page'] += 1
+    return [repo for repo in repos if repo['owner']['login'] == org]
 
 
 def unwatch_org(org, token):
     repos = repositories(org, token)
     safelist = read_safelist()
     headers = {'Authorization': f'token {token}'}
+    print(f'found {len(repos)} repositories')
+    total = 0
     for repo in repos:
         if repo['name'] not in safelist:
             res = requests.delete(repo['subscription_url'], headers=headers)
             if res.status_code > 399:
                 print(f'failed to unwatch {repo["name"]}')
                 continue
+            total += 1
             print(f'successfully unwatch {repo["name"]}')
+    print(f'successfully unwatch {total} repositories')
 
 
 if __name__ == '__main__':

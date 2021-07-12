@@ -29,7 +29,7 @@ $ python unwatch.py ORG
 ```
 
 ## Safelist
-If exists some repositories you don't want unwatch, create a txt or json file named "safelist" and put in all repositories that should not be touched.
+If exists some repositories that you don't want unwatch, create a txt or json file named `safelist.(txt|json)` and put in all repositories that should not be touched.
 
 Text file example:
 
@@ -49,4 +49,4 @@ Json file example:
 ]
 ```
 
-*obs:* All safelists will be read, so if exists a `safelist.txt` and `safelist.json` the script will merge both ine one list to be avoided.
+*obs:* All safelists will be read, so if exists a `safelist.txt` and `safelist.json` the script will merge both in one list.
